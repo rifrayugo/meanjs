@@ -1,0 +1,19 @@
+<section>
+  <div class="page-header">
+    <h1 ng-bind="vm.record.title"></h1>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-3"><strong>Patient Name : </strong></div>
+        <div class="col-md-6" ng-bind="vm.record.patient"></div>
+      </div>
+      <hr/>
+      <div class="row">
+        <div class="col-md-3"><strong>Medical Recap: </strong></div>
+        <div class="col-md-6" ng-bind="vm.record.content"></div>
+      </div>
+      <hr/>
+    </div>
+  </div>
+</section>

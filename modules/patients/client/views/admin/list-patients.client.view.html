@@ -1,0 +1,36 @@
+﻿<section>
+  <div class="page-header">
+    <h1>
+      Patients
+      <a class="btn btn-primary pull-right" data-ui-sref="admin.patients.create">
+        <i class="glyphicon glyphicon-plus"></i>
+      </a>
+    </h1>
+  </div>
+  <div>
+    <table class="table table-striped table-bordered">
+      <tr>
+        <th><center>Patient Name</center></th>
+        <th><center>Phone Number</center></th>
+        <th><center>Address</center></th>
+        <th><center>Date Record</center></th>
+        <th><center>Action</center></th>
+      </tr>
+      <tr a data-ng-repeat="patient in vm.patients">
+        <td data-ng-bind="patient.name"></td>
+        <td data-ng-bind="patient.phone"></td>
+        <td data-ng-bind="patient.address"></td>
+        <td data-ng-bind="patient.created | date:'dd MMMM yyyy'"></td>
+        <td>
+          <center>
+            <a data-ui-sref="admin.patients.edit({patientId: patient._id})" class="btn btn-primary">Edit</a>
+            <!--<a data-ui-sref="admin.patients.remove({patientId: patient._id})" class="btn btn-primary" ng-click="vm.remove()"><i class="glyphicon glyphicon-trash"></i></a>-->
+          </center>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="alert alert-warning text-center" data-ng-if="patients.$resolved && !patients.length">
+    No patients yet, why don't you <a data-ui-sref="admin.patients.create">create one</a>?
+  </div>
+</section>

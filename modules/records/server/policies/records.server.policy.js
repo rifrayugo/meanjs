@@ -9,26 +9,58 @@ var acl = require('acl');
 acl = new acl(new acl.memoryBackend());
 
 /**
- * Invoke Admin Permissions
+ * Invoke Records Permissions
  */
 exports.invokeRolesPolicies = function () {
   acl.allow([{
     roles: ['admin', 'doctor'],
     allows: [{
-      resources: '/api/users',
+      resources: '/api/records',
       permissions: '*'
     }, {
-      resources: '/api/users/:userId',
+      resources: '/api/records/:recordId',
       permissions: '*'
+    }]
+  }, {
+    roles: ['user'],
+    allows: [{
+      resources: '/api/records',
+      permissions: ['get']
+    }, {
+      resources: '/api/records/:recordId',
+      permissions: ['get']
+    }]
+  }, {
+    roles: ['guest'],
+    allows: [{
+      resources: '/api/records',
+      permissions: ['get']
+    }, {
+      resources: '/api/records/:recordId',
+      permissions: ['get']
+    }]
+  }, {
+    roles: ['patient'],
+    allows: [{
+      resources: '/api/records',
+      permissions: ['get']
+    }, {
+      resources: '/api/records/:recordId',
+      permissions: ['get']
     }]
   }]);
 };
 
 /**
- * Check If Admin Policy Allows
+ * Check If Records Policy Allows
  */
 exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
+
+  // If an record is being processed and the current user created it then allow any manipulation
+  if (req.record && req.user && req.record.user && req.record.user.id === req.user.id) {
+    return next();
+  }
 
   // Check for user roles
   acl.areAnyRolesAllowed(roles, req.route.path, req.method.toLowerCase(), function (err, isAllowed) {

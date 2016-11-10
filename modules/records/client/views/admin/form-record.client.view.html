@@ -1,0 +1,33 @@
+<section>
+  <div class="page-header">
+    <h1>{{vm.record._id ? 'Edit Record' : 'New Record'}}</h1>
+    <hr>
+    <a ng-show="vm.record._id" class="btn btn-primary" ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <div class="col-md-12">
+    <form name="vm.form.recordForm" class="form-horizontal" ng-submit="vm.save(vm.form.recordForm.$valid)" novalidate>
+      <fieldset>
+        <div class="form-group" show-errors>
+          <label class="control-label" for="title">Choose Patient</label>
+          
+          <select name="patient" id="choosePatient" class="form-control" ng-disabled="vm.record._id"
+            ng-options="option.name for option in vm.selectPatients track by option._id"
+            ng-model="vm.record.patient" >
+          </select>
+          <div ng-messages="vm.form.recordForm.title.$error" role="alert">
+            <p class="help-block error-text" ng-message="required">Record title is required.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="content">Medical Records</label>
+          <textarea name="content" data-ng-model="vm.record.content" id="content" class="form-control" cols="30" rows="10" placeholder="Content"></textarea>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">{{vm.record._id ? 'Update' : 'Create'}}</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</section>
